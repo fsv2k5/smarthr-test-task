@@ -1,0 +1,36 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      idle-timeout: 10000
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
+    driverClassName: org.postgresql.Driver
+#    poolName: SpringBootHikariCP
+#    maximumPoolSize: 250
+#    minimumIdle: 5
+#    maxLifetime: 2500000
+#    connectionTimeout: 25000
+#    idleTimeout: 25000
+#    pool-prepared-statements: true
+#    max-open-prepared-statements: 250
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  tomcat:
+    max-wait: 25000
+    max-active: 250
+    max-idle: 55
+    min-idle: 25
+  jackson:
+    bean-introspection-module: true
+    date-format: 'yyyy-MM-dd'
+
+server:
+  port: 8080
+

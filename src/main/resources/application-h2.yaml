@@ -1,0 +1,38 @@
+spring:
+  logging:
+    level:
+      org.springframework.web: DEBUG
+      com.smarthr.employeedb.controller: DEBUG
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      idle-timeout: 10000
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+    poolName: SpringBootHikariCP
+    maximumPoolSize: 250
+    minimumIdle: 5
+    maxLifetime: 2500000
+    connectionTimeout: 25000
+    idleTimeout: 25000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 250
+  tomcat:
+    max-wait: 25000
+    max-active: 250
+    max-idle: 55
+    min-idle: 25
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: create-drop
+    properties.hibernate.dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  h2:
+    console: enabled=true
+
+server:
+  port: 8080
