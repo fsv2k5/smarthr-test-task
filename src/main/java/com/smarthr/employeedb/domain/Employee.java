@@ -6,32 +6,39 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.REFRESH;
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 
 @Getter
 @Setter
 @Entity
 @SuperBuilder
+@EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "employees")
-//@EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Employee extends BaseEntity {
 
     @Column(nullable = false, length = 10, unique = true)
-    int inn;
+    @Min(1000000000L)
+    @Max(9999999999L)
+    long inn;
+
     @Column(nullable = false, length = 255)
     String fio;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date birthday;
-    @ManyToMany(cascade = {REFRESH}, fetch = EAGER)
+
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(cascade = {ALL}, fetch = EAGER)
     @JoinTable(name = "employee_companies",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id"))
-//    @EqualsAndHashCode.Exclude
     Set<Company> companies;
 }

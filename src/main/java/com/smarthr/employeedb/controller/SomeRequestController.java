@@ -1,6 +1,6 @@
 package com.smarthr.employeedb.controller;
 
-import com.smarthr.employeedb.model.ExtendedResponse;
+import com.smarthr.employeedb.vo.ExtendedResponse;
 import com.smarthr.employeedb.service.SomeRequestService;
 import lombok.AccessLevel;
 import lombok.Setter;

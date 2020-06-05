@@ -1,6 +1,6 @@
 package com.smarthr.employeedb.domain;
 
-import com.smarthr.employeedb.data.Identified;
+import com.smarthr.employeedb.vo.Identified;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 public abstract class BaseEntity implements Cloneable, Serializable, Identified {
     @Id
-//    @Type(type = "pg-uuid") //remove when H2
+//    @Type(type = "pg-uuid") //use for POSTGRES only!
     @Column(name = "id", columnDefinition = "uuid")
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;

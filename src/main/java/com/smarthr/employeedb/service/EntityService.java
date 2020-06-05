@@ -1,20 +1,29 @@
 package com.smarthr.employeedb.service;
 
 import com.smarthr.employeedb.domain.BaseEntity;
+import com.smarthr.employeedb.exception.SomeRequestException;
 import com.smarthr.employeedb.repository.EntityJpaRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLNonTransientException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,7 +53,8 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
     @Override
     @Transactional(readOnly = true)
     public Entity get(UUID id) {
-        return ofNullable(id).flatMap(entity -> repository.findById(id)).orElse(null);
+        return ofNullable(id).flatMap(entity -> repository.findById(id))
+                .orElseThrow(() -> new SomeRequestException("Object with ID " + " not found.", HttpStatus.BAD_REQUEST));
     }
 
     @Override
@@ -67,7 +77,7 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
 
     @Override
     @Transactional(readOnly = true)
-    public List<Entity> get(List<Entity> entities) {
+    public List<Entity> get(Collection<Entity> entities) {
         return repository.findAllById(entities.stream()
                 .map(BaseEntity::getId).collect(Collectors.toList()));
     }
@@ -75,7 +85,9 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
     @Override
     @Transactional(readOnly = true)
     public List<Entity> merge(List<Entity> entities) {
-        List<Entity> existing = entities.stream().filter(e -> e.getId() != null).collect(Collectors.toList());
+        List<Entity> existing = entities.stream()
+                .filter(e -> e.getId() != null)
+                .collect(Collectors.toList());
         entities.removeAll(existing);
         List<Entity> out = save(entities);
         out.addAll(repository.findAllById(existing.stream()
@@ -86,13 +98,18 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
     @Override
     @Transactional
     public Entity save(Entity e) {
-        return ofNullable(e).map(entity -> repository.save(entity)).orElse(null);
+        try {
+            return ofNullable(e).map(entity -> repository.save(entity)).orElse(null);
+        } catch (UnexpectedRollbackException | DataIntegrityViolationException
+                | ConstraintViolationException exc) {
+            return repository.save(findByUniq(e));
+        }
     }
 
-//    catch (UnexpectedRollbackException | DataIntegrityViolationException | ConstraintViolationException e)
-//    {
-//        log.warn("Unable to save.", e);
-//    }
+    protected Entity findByUniq(Entity e) {
+        return null;
+    }
+
 
     @Override
     @Transactional

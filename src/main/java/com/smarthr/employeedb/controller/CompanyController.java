@@ -1,8 +1,8 @@
 package com.smarthr.employeedb.controller;
 
-import com.smarthr.employeedb.data.CompanyDTO;
+import com.google.common.collect.Lists;
+import com.smarthr.employeedb.vo.CompanyDTO;
 import com.smarthr.employeedb.domain.Company;
-import com.smarthr.employeedb.service.CompanyService;
 import com.smarthr.employeedb.service.ICompanyService;
 import lombok.AccessLevel;
 import lombok.Setter;
@@ -26,4 +26,9 @@ public class CompanyController extends EntityController<Company, CompanyDTO> {
         return toDTOMapper.apply(companyService.findByEmployeeIds(ids));
     }
 
+    @ResponseBody
+    @GetMapping("employee/{id}")
+    public List<CompanyDTO> getCompaniesByEmployeeId(@RequestParam UUID id) {
+        return toDTOMapper.apply(companyService.findByEmployeeIds(Lists.newArrayList(id)));
+    }
 }

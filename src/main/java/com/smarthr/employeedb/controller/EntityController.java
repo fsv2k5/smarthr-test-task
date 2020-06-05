@@ -27,8 +27,16 @@ public abstract class EntityController<Entity extends BaseEntity, DTO> {
     EntityMapper<DTO, Entity> fromDTOMapper;
 
     @ResponseBody
+    @GetMapping(path = {"", "/"})
+    public ResponseEntity<List<?>> getAll() {
+        return new ResponseEntity<>(service.getAll(1, 100).stream()
+                .map(toDTOMapper)
+                .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @ResponseBody
     @GetMapping(path = {"", "/"}, params = {"page", "size"})
-    public ResponseEntity<List<?>> getAll(
+    public ResponseEntity<List<?>> getAllPaged(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size) {
         return new ResponseEntity<>(service.getAll(page, size).stream()

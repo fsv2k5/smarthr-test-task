@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public interface IEntityService<Entity extends BaseEntity> {
     List<Entity> getAllByIds(List<UUID> ids);
 
     @Transactional(readOnly = true)
-    List<Entity> get(List<Entity> entities);
+    List<Entity> get(Collection<Entity> entities);
 
     @Transactional(readOnly = true)
     List<Entity> merge(List<Entity> entities);

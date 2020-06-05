@@ -44,17 +44,17 @@ public class DataSetup {
         Employee employee1 = employeeService.save(Employee.builder()
                 .fio("employee1")
                 .birthday(Date.valueOf(LocalDate.of(1980,9,9)))
-                .inn(1234567890)
+                .inn(1234567890L)
                 .build());
         Employee employee2 = employeeService.save(Employee.builder()
                 .fio("employee1")
                 .birthday(Date.valueOf(LocalDate.of(1981,10,12)))
-                .inn(1234554321)
+                .inn(1234554321L)
                 .build());
         Employee employee3 = employeeService.save(Employee.builder()
                 .fio("employee1")
                 .birthday(Date.valueOf(LocalDate.of(1982,1,6)))
-                .inn(987654321)
+                .inn(1284597890L)
                 .build());
 
         employee1.setCompanies(Sets.newHashSet(company1));

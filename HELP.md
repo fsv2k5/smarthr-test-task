@@ -12,7 +12,7 @@ docker run --name smarthr-postgres -e POSTGRES_PASSWORD=password -d -p 54322:543
 5.	Добавить нового сотрудника.
     POST /employees
 6.	Редактировать сотрудника (ИНН, ФИО, дата рождения).
-    PUT /employees/{id} + (body)
+    PUT /employees/  (body)
 7.	Удалить сотрудника.
     DELETE /employees/{id}
 8.	Добавить сотрудника, работающего в одной или нескольких компаниях.

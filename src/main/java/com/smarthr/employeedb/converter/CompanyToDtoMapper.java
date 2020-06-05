@@ -1,7 +1,7 @@
 package com.smarthr.employeedb.converter;
 
 
-import com.smarthr.employeedb.data.CompanyDTO;
+import com.smarthr.employeedb.vo.CompanyDTO;
 import com.smarthr.employeedb.domain.Company;
 import com.smarthr.employeedb.domain.Employee;
 import lombok.AccessLevel;

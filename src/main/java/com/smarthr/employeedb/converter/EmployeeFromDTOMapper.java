@@ -1,6 +1,7 @@
 package com.smarthr.employeedb.converter;
 
-import com.smarthr.employeedb.data.EmployeeDTO;
+import com.google.common.collect.Sets;
+import com.smarthr.employeedb.vo.EmployeeDTO;
 import com.smarthr.employeedb.domain.Company;
 import com.smarthr.employeedb.domain.Employee;
 import com.smarthr.employeedb.service.CompanyService;
@@ -10,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Set;
 
 @Named
 @Setter(onMethod = @__({@Inject}))
@@ -25,7 +25,7 @@ public class EmployeeFromDTOMapper extends EntityMapper<EmployeeDTO, Employee> {
                 .fio(in.getFio())
                 .inn(in.getInn())
                 .birthday(in.getBirthday())
-                .companies((Set<Company>) companyService.getAllByIds(in.getCompanyIds()))
+                .companies(Sets.newHashSet(companyService.getAllByIds(in.getCompanyIds())))
                 .build();
     }
 

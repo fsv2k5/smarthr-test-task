@@ -1,6 +1,7 @@
 package com.smarthr.employeedb.converter;
 
-import com.smarthr.employeedb.data.CompanyDTO;
+import com.google.common.collect.Sets;
+import com.smarthr.employeedb.vo.CompanyDTO;
 import com.smarthr.employeedb.domain.Company;
 import com.smarthr.employeedb.domain.Employee;
 import com.smarthr.employeedb.service.EmployeeService;
@@ -24,7 +25,7 @@ public class CompanyFromDTOMapper extends EntityMapper<CompanyDTO, Company> {
                 .id(in.getId())
                 .companyName(in.getCompanyName())
                 .edrpo(in.getEdrpo())
-                .employees((Set<Employee>) employeeService.getAllByIds(in.getEmployeeIds()))
+                .employees(Sets.newHashSet(employeeService.getAllByIds(in.getEmployeeIds())))
                 .build();
     }
 }

@@ -1,4 +1,4 @@
-package com.smarthr.employeedb.data;
+package com.smarthr.employeedb.vo;
 
 import java.util.UUID;
 

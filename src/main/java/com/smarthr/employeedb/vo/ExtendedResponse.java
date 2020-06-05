@@ -1,4 +1,4 @@
-package com.smarthr.employeedb.model;
+package com.smarthr.employeedb.vo;
 
 import com.smarthr.employeedb.util.DateTimeUtil;
 

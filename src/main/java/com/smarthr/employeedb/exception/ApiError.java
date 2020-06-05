@@ -1,13 +1,12 @@
-package com.smarthr.employeedb.model;
+package com.smarthr.employeedb.exception;
 
 import com.smarthr.employeedb.util.DateTimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 @Setter
 @AllArgsConstructor
-public class ApiError {
+public class ApiError extends RuntimeException{
 
     private String status;
     private String timestamp;
