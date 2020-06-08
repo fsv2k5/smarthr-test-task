@@ -1,13 +1,12 @@
 package com.smarthr.employeedb.repository;
 
 import com.smarthr.employeedb.domain.Company;
-import com.smarthr.employeedb.domain.Employee;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -17,7 +16,5 @@ public interface CompanyRepository extends EntityJpaRepository<Company> {
             "FROM Company c " +
             "JOIN c.employees employees " +
             "WHERE employees.id IN (:employeeIds)")
-    List<Company> findByEmployeeIds(List<UUID> employeeIds);
-
-    Optional<Company> findByEdrpo(int edrpo);
+    List<Company> findByEmployeeIds(@Param("employeeIds") List<UUID> employeeIds);
 }

@@ -1,7 +1,6 @@
 package com.smarthr.employeedb.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 @Getter

@@ -1,8 +1,5 @@
 package com.smarthr.employeedb.exception;
 
-import com.smarthr.employeedb.exception.ApiError;
-import com.smarthr.employeedb.exception.SomeRequestException;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.hibernate.exception.ConstraintViolationException;
@@ -22,7 +19,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestControllerAdvice
-public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({UnsatisfiedServletRequestParameterException.class,
             ValidationException.class,
@@ -40,10 +37,8 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
         return error(e, HttpStatus.BAD_REQUEST);
     }
 
-    private ResponseEntity<ApiError> error(
-            final Exception exception, final HttpStatus httpStatus) {
-        final String message =
-                Optional.of(exception.getMessage()).orElse(exception.getClass().getSimpleName());
+    private ResponseEntity<ApiError> error(final Exception exception, final HttpStatus httpStatus) {
+        final String message = Optional.of(exception.getMessage()).orElse(exception.getClass().getSimpleName());
         return new ResponseEntity<>(new ApiError(httpStatus.getReasonPhrase(), message), httpStatus);
     }
 }

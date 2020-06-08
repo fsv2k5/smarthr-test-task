@@ -9,17 +9,15 @@ import com.smarthr.employeedb.service.IEmployeeService;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
-@Named
+@Component
 @Setter(onMethod = @__({@Inject}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DataSetup {
@@ -62,9 +60,8 @@ public class DataSetup {
         employee3.setCompanies(Sets.newHashSet(company2, company3, company1));
         ArrayList<Employee> employees = Lists.newArrayList(employee1, employee2, employee3);
         employeeService.save(employees);
-        List<Company> c = companyService.getAll(1, 100);
-        List<Company> companies = companyService.findByEmployeeIds(employees.stream()
-                .map(Employee::getId).collect(Collectors.toList()));
-        companies.size();
+//        List<Company> c = companyService.getAll(1, 100);
+//        List<Company> companies = companyService.findByEmployeeIds(employees.stream()
+//                .map(Employee::getId).collect(Collectors.toList()));
     }
 }

@@ -1,23 +1,20 @@
 package com.smarthr.employeedb.service;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import com.smarthr.employeedb.domain.Company;
 import com.smarthr.employeedb.domain.Employee;
 import com.smarthr.employeedb.repository.CompanyRepository;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-import static java.util.Optional.ofNullable;
-
-@Named
+@Service
 @Setter(onMethod = @__({@Inject}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CompanyService extends EntityService<Company> implements ICompanyService {
@@ -28,23 +25,17 @@ public class CompanyService extends EntityService<Company> implements ICompanySe
     @Transactional(readOnly = true)
     public List<Company> findByEmployeeIds(List<UUID> ids) {
         return repository.findByEmployeeIds(ids);
-
     }
 
     @Override
-    protected Company findByUniq(Company e) {
-        return repository.findByEdrpo(e.getEdrpo()).get();
+    protected void updateDeleted(Company exist, Company e) {
+        Set<Employee> needToUpdate = exist.getEmployees();
+        needToUpdate.removeAll(e.getEmployees());
+        if (CollectionUtils.isNotEmpty(needToUpdate)) {
+            needToUpdate.forEach(employee -> {
+                employee.getCompanies().remove(e);
+                employeeService.save(employee);
+            });
+        }
     }
-
-//    @Override
-//    @Transactional
-//    public Company save(Company c) {
-//        return ofNullable(c).map(company -> {
-//            if (!company.getEmployees().isEmpty()) {
-//                company.setEmployees(Sets.newHashSet(employeeService.get(company.getEmployees())));
-//            }
-//            return super.save(company);
-//        }).orElse(null);
-//    }
-
 }

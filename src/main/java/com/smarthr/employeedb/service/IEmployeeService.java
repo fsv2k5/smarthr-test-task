@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface IEmployeeService extends IEntityService<Employee> {
     List<Employee> findByCompaniesIds(List<UUID> ids);
+    Employee updateCompanies(UUID id, List<UUID> companyIds);
 }

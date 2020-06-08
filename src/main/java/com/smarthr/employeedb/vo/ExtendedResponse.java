@@ -11,7 +11,7 @@ public class ExtendedResponse implements Serializable {
 
     public ExtendedResponse(String responseBody) {
         this.responseBody = responseBody;
-        timestamp = DateTimeUtil.getDeteTimeNowAsString();
+        timestamp = DateTimeUtil.getDateTimeNowAsString();
     }
 
 }

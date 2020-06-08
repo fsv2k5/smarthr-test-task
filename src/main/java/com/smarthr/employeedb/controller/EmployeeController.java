@@ -1,17 +1,22 @@
 package com.smarthr.employeedb.controller;
 
 import com.google.common.collect.Lists;
-import com.smarthr.employeedb.vo.CompanyDTO;
 import com.smarthr.employeedb.vo.EmployeeDTO;
 import com.smarthr.employeedb.domain.Employee;
 import com.smarthr.employeedb.service.IEmployeeService;
+import lombok.AccessLevel;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("employees")
+@Setter(onMethod = @__({@Inject}))
+@FieldDefaults(level = AccessLevel.PROTECTED)
 public class EmployeeController extends EntityController<Employee, EmployeeDTO> {
     IEmployeeService employeeService;
 
@@ -20,7 +25,11 @@ public class EmployeeController extends EntityController<Employee, EmployeeDTO> 
     public List<EmployeeDTO> getEmployeesByCompanyId(@RequestParam UUID id) {
         return toDTOMapper.apply(employeeService.findByCompaniesIds(Lists.newArrayList(id)));
     }
-
+    @ResponseBody
+    @PostMapping("{id}/companies")
+    public EmployeeDTO updateCompanies(@RequestParam UUID id, @RequestBody List<UUID> companyIds) {
+        return toDTOMapper.apply(employeeService.updateCompanies(id, companyIds));
+    }
 //1.	Получить полную информацию о сотруднике (его данные и ИД компаний, где он работает).
 //      GET /employees/{id}
 //2.	Получить список всех сотрудников (их данные и ИД компаний, где они работают). Желательно с поддержкой пагинации, но не обязательно.

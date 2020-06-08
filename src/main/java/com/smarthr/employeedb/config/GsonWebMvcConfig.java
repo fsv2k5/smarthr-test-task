@@ -12,9 +12,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Collections;
 import java.util.List;
+
 @EnableWebMvc
 @Configuration
-public class GsonWebMvcConfigurer implements WebMvcConfigurer {
+public class GsonWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

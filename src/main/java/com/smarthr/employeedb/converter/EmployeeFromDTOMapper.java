@@ -2,17 +2,16 @@ package com.smarthr.employeedb.converter;
 
 import com.google.common.collect.Sets;
 import com.smarthr.employeedb.vo.EmployeeDTO;
-import com.smarthr.employeedb.domain.Company;
 import com.smarthr.employeedb.domain.Employee;
 import com.smarthr.employeedb.service.CompanyService;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
-@Named
+@Component
 @Setter(onMethod = @__({@Inject}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmployeeFromDTOMapper extends EntityMapper<EmployeeDTO, Employee> {

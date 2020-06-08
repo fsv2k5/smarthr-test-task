@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @ComponentScan("com.smarthr")
-@EnableJpaRepositories("com.smarthr.employeedb.*")
 @EntityScan("com.smarthr.employeedb.*")
+@EnableJpaRepositories("com.smarthr.employeedb.*")
 @SpringBootApplication
 //		(exclude = {GsonAutoConfiguration.class,
 //		DataSourceAutoConfiguration.class})

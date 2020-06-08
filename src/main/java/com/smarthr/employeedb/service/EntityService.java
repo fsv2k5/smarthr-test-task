@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +20,6 @@ import org.springframework.util.ObjectUtils;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.SQLNonTransientException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -98,18 +94,24 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
     @Override
     @Transactional
     public Entity save(Entity e) {
-        try {
-            return ofNullable(e).map(entity -> repository.save(entity)).orElse(null);
-        } catch (UnexpectedRollbackException | DataIntegrityViolationException
-                | ConstraintViolationException exc) {
-            return repository.save(findByUniq(e));
+        if (Objects.nonNull(e.getId())) {
+            Optional<Entity> exist = repository.findById(e.getId());
+            if (exist.isPresent())  {
+                updateDeleted(exist.get(), e);
+            }
         }
+        return ofNullable(e).map(entity -> repository.save(entity)).orElse(null);
+//        try {
+//        } catch (UnexpectedRollbackException
+//                | DataIntegrityViolationException
+//                | ConstraintViolationException exc) {
+//            return repository.save(findByUniq(e));
+//        }
     }
 
-    protected Entity findByUniq(Entity e) {
-        return null;
-    }
+    protected void updateDeleted(Entity exist, Entity e){
 
+    }
 
     @Override
     @Transactional

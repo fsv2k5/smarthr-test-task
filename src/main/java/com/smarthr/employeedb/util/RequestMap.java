@@ -17,13 +17,13 @@ public class RequestMap {
     }
 
     private List<Pair<String, HttpMethod>> list = Stream.of(
-            Pair.of("https://reqres.in/api/users?page=2", HttpMethod.GET),
-            Pair.of("https://reqres.in/api/users/2", HttpMethod.GET),
-            Pair.of("https://reqres.in/api/users/23", HttpMethod.GET),
-            Pair.of("https://reqres.in/api/unknown/2", HttpMethod.GET),
-            Pair.of("https://reqres.in/api/unknown/23", HttpMethod.GET),
-            Pair.of("https://reqres.in/api/users", HttpMethod.POST),
-            Pair.of("https://reqres.in/api/users/2", HttpMethod.PUT),
+//            Pair.of("https://reqres.in/api/users?page=2", HttpMethod.GET),
+//            Pair.of("https://reqres.in/api/users/2", HttpMethod.GET),
+//            Pair.of("https://reqres.in/api/users/23", HttpMethod.GET),
+//            Pair.of("https://reqres.in/api/unknown/2", HttpMethod.GET),
+//            Pair.of("https://reqres.in/api/unknown/23", HttpMethod.GET),
+//            Pair.of("https://reqres.in/api/users", HttpMethod.POST),
+//            Pair.of("https://reqres.in/api/users/2", HttpMethod.PUT),
             Pair.of("https://reqres.in/api/users/2", HttpMethod.DELETE)
     ).collect(Collectors.toList());
 }
