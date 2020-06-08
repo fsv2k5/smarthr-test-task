@@ -11,7 +11,7 @@ import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 
 @Getter
@@ -32,11 +32,12 @@ public class Employee extends BaseEntity {
     @Column(nullable = false, length = 255)
     String fio;
 
+    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date birthday;
 
     @EqualsAndHashCode.Exclude
-    @ManyToMany(cascade = {ALL}, fetch = EAGER)
+    @ManyToMany(cascade = {PERSIST, REFRESH}, fetch = EAGER)
     @JoinTable(name = "employee_companies",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id"))

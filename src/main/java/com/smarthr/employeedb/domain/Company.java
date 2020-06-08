@@ -9,7 +9,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.FetchType.EAGER;
 
@@ -32,6 +32,6 @@ public class Company extends BaseEntity {
     String companyName;
 
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "companies", cascade = {ALL}, fetch = EAGER)
+    @ManyToMany(mappedBy = "companies", cascade = {PERSIST, REFRESH}, fetch = EAGER)
     Set<Employee> employees;
 }
