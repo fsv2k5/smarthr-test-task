@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "ce6ea989-8165-41b7-a7e5-ce2656ea7c67",
+		"name": "SmartHr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employee by ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"{id}"
+					]
+				},
+				"description": "http://localhost:8080/employees/{id}"
+			},
+			"response": []
+		},
+		{
+			"name": "All employees paged",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/employees?page=1&size=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "2"
+						}
+					]
+				},
+				"description": "http://localhost:8080/employees?page=1&size=2"
+			},
+			"response": []
+		},
+		{
+			"name": "All employees by company ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/company/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"company",
+						"{id}"
+					]
+				},
+				"description": "http://localhost:8080/employees/company/{id}"
+			},
+			"response": []
+		},
+		{
+			"name": "All companies by employee ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[                        \"c9c87c7a-b4f0-4736-8df9-14fd03c5951b\",\n            \"e7f82145-2379-48cb-b5b9-83ecb97522e0\",\n            \"3898e6de-a51f-4016-a95c-a5da74a94463\"\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/companies/employee/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"companies",
+						"employee",
+						"{id}"
+					]
+				},
+				"description": "http://localhost:8080/companies/employee/{id}"
+			},
+			"response": []
+		},
+		{
+			"name": "New employee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " [       \n \t{\n        \"fio\": \"employee\",\n        \"inn\": 1234567810,\n        \"birthday\": \"1980-09-09\",\n        \"companyIds\": [\n        ]\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/employees/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						""
+					]
+				},
+				"description": "http://localhost:8080/employees/"
+			},
+			"response": []
+		},
+		{
+			"name": "Update employee by ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "       \n    {\n        \"fio\": \"employee\",\n        \"inn\": 1234567810,\n        \"birthday\": \"1980-09-09\",\n        \"companyIds\": [\"9a957260-8f0b-4b52-aebf-d5d1d94d84da\"]\n    }\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/employees/88c6a4b5-eec4-42e9-a22e-c7ded356fd5d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"88c6a4b5-eec4-42e9-a22e-c7ded356fd5d"
+					]
+				},
+				"description": "http://localhost:8080/employees/{id}"
+			},
+			"response": []
+		},
+		{
+			"name": "Remove employee",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"{id}"
+					]
+				},
+				"description": "http://localhost:8080/employees/{id}"
+			},
+			"response": []
+		},
+		{
+			"name": "Update companies for employee by ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n            \"7071febb-1bfb-4f77-997f-3f3eee685e04\",\n            \"43cd9d87-19b4-409e-8cad-2f2d81029b75\"\n]\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/employees/{id}/companies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"{id}",
+						"companies"
+					]
+				},
+				"description": "http://localhost:8080/employees/{id}/companies"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

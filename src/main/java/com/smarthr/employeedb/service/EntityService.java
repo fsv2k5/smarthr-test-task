@@ -1,24 +1,20 @@
 package com.smarthr.employeedb.service;
 
 import com.smarthr.employeedb.domain.BaseEntity;
-import com.smarthr.employeedb.exception.SomeRequestException;
 import com.smarthr.employeedb.repository.EntityJpaRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,15 +23,21 @@ import static java.util.Optional.ofNullable;
 
 @Slf4j
 @Getter
-@Setter(onMethod = @__({@Inject}))
+@Setter(onMethod = @__({@Autowired}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class EntityService<Entity extends BaseEntity> implements IEntityService<Entity> {
     public EntityManager entityManager;
     public EntityJpaRepository<Entity> repository;
 
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     @Override
     @Transactional
     public void delete(UUID id) {
+        prepareEntityForDelete(id);
         repository.deleteById(id);
     }
 
@@ -48,9 +50,9 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
 
     @Override
     @Transactional(readOnly = true)
-    public Entity get(UUID id) {
-        return ofNullable(id).flatMap(entity -> repository.findById(id))
-                .orElseThrow(() -> new SomeRequestException("Object with ID " + " not found.", HttpStatus.BAD_REQUEST));
+    public Entity getById(UUID id) {
+        return ofNullable(id).flatMap(entity -> repository.findById(id)).orElseThrow(() ->
+                        new EntityNotFoundException("Object with ID " + id + " not found."));
     }
 
     @Override
@@ -59,7 +61,7 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
         if (e != null) {
             UUID id = e.getId();
             if (id != null) {
-                return repository.findById(id).orElse(null);
+                return getById(id);
             }
         }
         return null;
@@ -79,19 +81,6 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Entity> merge(List<Entity> entities) {
-        List<Entity> existing = entities.stream()
-                .filter(e -> e.getId() != null)
-                .collect(Collectors.toList());
-        entities.removeAll(existing);
-        List<Entity> out = save(entities);
-        out.addAll(repository.findAllById(existing.stream()
-                .map(BaseEntity::getId).collect(Collectors.toList())));
-        return out;
-    }
-
-    @Override
     @Transactional
     public Entity save(Entity e) {
         if (Objects.nonNull(e.getId())) {
@@ -101,16 +90,6 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
             }
         }
         return ofNullable(e).map(entity -> repository.save(entity)).orElse(null);
-//        try {
-//        } catch (UnexpectedRollbackException
-//                | DataIntegrityViolationException
-//                | ConstraintViolationException exc) {
-//            return repository.save(findByUniq(e));
-//        }
-    }
-
-    protected void updateDeleted(Entity exist, Entity e){
-
     }
 
     @Override
@@ -124,17 +103,5 @@ public abstract class EntityService<Entity extends BaseEntity> implements IEntit
             return entityList;
         }
         return entities;
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll() {
-        repository.deleteAll();
-    }
-
-    @Transactional(readOnly = true)
-    @PersistenceContext
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }

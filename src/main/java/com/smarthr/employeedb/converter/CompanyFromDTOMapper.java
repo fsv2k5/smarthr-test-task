@@ -7,12 +7,12 @@ import com.smarthr.employeedb.service.EmployeeService;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-
 @Component
-@Setter(onMethod = @__({@Inject}))
+@Setter(onMethod = @__({@Autowired}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CompanyFromDTOMapper extends EntityMapper<CompanyDTO, Company> {
     EmployeeService employeeService;

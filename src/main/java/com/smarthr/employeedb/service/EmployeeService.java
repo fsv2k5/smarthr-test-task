@@ -8,17 +8,17 @@ import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 import java.util.*;
 
 
 
 @Service
-@Setter(onMethod = @__({@Inject}))
+@Setter(onMethod = @__({@Autowired}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmployeeService extends EntityService<Employee> implements IEmployeeService {
     EmployeeRepository repository;
@@ -31,7 +31,12 @@ public class EmployeeService extends EntityService<Employee> implements IEmploye
     }
 
     @Override
-    protected void updateDeleted(Employee employee, Employee update) {
+    public void prepareEntityForDelete(UUID id){
+        updateCompanies(id, Lists.newArrayList());
+    }
+
+    @Override
+    public void updateDeleted(Employee employee, Employee update) {
         List<Company> newCompanies = Lists.newArrayList(update.getCompanies());
         remove(employee, newCompanies);
     }
@@ -45,11 +50,11 @@ public class EmployeeService extends EntityService<Employee> implements IEmploye
             remove(employee, newCompanies);
             return save(employee);
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Employee not found");
         }
     }
 
-    private void remove(Employee employee, List<Company> newCompanies) {
+    void remove(Employee employee, List<Company> newCompanies) {
         Set<Company> updateNeeded = employee.getCompanies();
         updateNeeded.removeAll(newCompanies);
         if (CollectionUtils.isNotEmpty(updateNeeded)) {

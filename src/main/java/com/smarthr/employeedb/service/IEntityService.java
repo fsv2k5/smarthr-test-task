@@ -1,6 +1,8 @@
 package com.smarthr.employeedb.service;
 
+import com.google.common.collect.Lists;
 import com.smarthr.employeedb.domain.BaseEntity;
+import com.smarthr.employeedb.domain.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,7 @@ public interface IEntityService<Entity extends BaseEntity> {
 
     List<Entity> getAll(int page, int size);
 
-    Entity get(UUID id);
+    Entity getById(UUID id);
 
     Entity get(Entity e);
 
@@ -23,11 +25,11 @@ public interface IEntityService<Entity extends BaseEntity> {
 
     List<Entity> get(Collection<Entity> entities);
 
-    List<Entity> merge(List<Entity> entities);
-
     Entity save(Entity e);
 
     List<Entity> save(List<Entity> entities);
 
-    void deleteAll();
+    void prepareEntityForDelete(UUID id);
+
+    void updateDeleted(Entity entity, Entity update);
 }

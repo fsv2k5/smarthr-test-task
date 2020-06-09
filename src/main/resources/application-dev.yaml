@@ -9,14 +9,14 @@ spring:
     username: postgres
     password: password
     driverClassName: org.postgresql.Driver
-#    poolName: SpringBootHikariCP
-#    maximumPoolSize: 250
-#    minimumIdle: 5
-#    maxLifetime: 2500000
-#    connectionTimeout: 25000
-#    idleTimeout: 25000
-#    pool-prepared-statements: true
-#    max-open-prepared-statements: 250
+    poolName: SpringBootHikariCP
+    maximumPoolSize: 250
+    minimumIdle: 5
+    maxLifetime: 2500000
+    connectionTimeout: 25000
+    idleTimeout: 25000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 250
   jpa:
     database: POSTGRESQL
     show-sql: true

@@ -8,9 +8,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
+import static com.smarthr.employeedb.util.Constraint.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 
@@ -25,11 +27,12 @@ import static javax.persistence.FetchType.EAGER;
 public class Employee extends BaseEntity {
 
     @Column(nullable = false, length = 10, unique = true)
-    @Min(1000000000L)
-    @Max(9999999999L)
+    @Min(value = MIN_INN, message = INN_MESSAGE)
+    @Max(value = MAX_INN, message = INN_MESSAGE)
     long inn;
 
     @Column(nullable = false, length = 255)
+    @Size(max = 255, message = INN_SIZE_MESSAGE)
     String fio;
 
     @Temporal(TemporalType.DATE)

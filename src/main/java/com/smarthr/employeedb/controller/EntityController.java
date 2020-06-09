@@ -57,14 +57,6 @@ public abstract class EntityController<Entity extends BaseEntity, DTO> {
     }
 
     @ResponseBody
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteAll() {
-        service.deleteAll();
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-
-    @ResponseBody
     @PostMapping(path = {"", "/"})
     @ResponseStatus(value = HttpStatus.OK)
     public DTO save(@RequestBody DTO dto) {
@@ -74,7 +66,7 @@ public abstract class EntityController<Entity extends BaseEntity, DTO> {
     @ResponseBody
     @GetMapping("/{id}")
     public DTO getById(@PathVariable UUID id) {
-        Entity out = service.get(id);
+        Entity out = service.getById(id);
         return ofNullable(out).map(e -> toDTOMapper.apply(e)).orElseThrow(RuntimeException::new);
     }
 

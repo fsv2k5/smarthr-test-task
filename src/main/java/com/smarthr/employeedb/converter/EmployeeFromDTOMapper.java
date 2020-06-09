@@ -7,12 +7,11 @@ import com.smarthr.employeedb.service.CompanyService;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-
 @Component
-@Setter(onMethod = @__({@Inject}))
+@Setter(onMethod = @__({@Autowired}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmployeeFromDTOMapper extends EntityMapper<EmployeeDTO, Employee> {
     CompanyService companyService;
@@ -27,5 +26,4 @@ public class EmployeeFromDTOMapper extends EntityMapper<EmployeeDTO, Employee> {
                 .companies(Sets.newHashSet(companyService.getAllByIds(in.getCompanyIds())))
                 .build();
     }
-
 }

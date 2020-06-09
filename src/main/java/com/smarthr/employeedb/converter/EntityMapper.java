@@ -5,13 +5,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class EntityMapper<S, T> implements Function<S, T> {
-    public T apply(S in) {
-        return in == null
+    public T apply(S source) {
+        return source == null
                 ? null
-                : doApply(in);
+                : doApply(source);
     }
 
-    public abstract T doApply(S in);
+    public abstract T doApply(S source);
 
     public List<T> apply(List<S> source) {
         return source != null

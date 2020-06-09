@@ -9,16 +9,18 @@ import com.smarthr.employeedb.service.IEmployeeService;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+@Slf4j
 @Component
-@Setter(onMethod = @__({@Inject}))
+@Setter(onMethod = @__({@Autowired}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DataSetup {
     ICompanyService companyService;
@@ -45,12 +47,12 @@ public class DataSetup {
                 .inn(1234567890L)
                 .build());
         Employee employee2 = employeeService.save(Employee.builder()
-                .fio("employee1")
+                .fio("employee2")
                 .birthday(Date.valueOf(LocalDate.of(1981,10,12)))
                 .inn(1234554321L)
                 .build());
         Employee employee3 = employeeService.save(Employee.builder()
-                .fio("employee1")
+                .fio("employee3")
                 .birthday(Date.valueOf(LocalDate.of(1982,1,6)))
                 .inn(1284597890L)
                 .build());
@@ -60,8 +62,5 @@ public class DataSetup {
         employee3.setCompanies(Sets.newHashSet(company2, company3, company1));
         ArrayList<Employee> employees = Lists.newArrayList(employee1, employee2, employee3);
         employeeService.save(employees);
-//        List<Company> c = companyService.getAll(1, 100);
-//        List<Company> companies = companyService.findByEmployeeIds(employees.stream()
-//                .map(Employee::getId).collect(Collectors.toList()));
     }
 }

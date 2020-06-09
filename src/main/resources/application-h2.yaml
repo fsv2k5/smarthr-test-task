@@ -1,8 +1,4 @@
 spring:
-  logging:
-    level:
-      org.springframework.web: DEBUG
-      com.smarthr.employeedb.controller: DEBUG
   main:
     allow-bean-definition-overriding: true
   datasource:

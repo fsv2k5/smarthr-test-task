@@ -35,9 +35,6 @@ public abstract class BaseEntity implements Cloneable, Serializable, Identified 
     @Column(name = "updated_date", insertable = false)
     Date updatedDate;
 
-    @Transient
-    boolean isDeleted;
-
     @PrePersist
     public void toCreate() {
         setCreatedDate(new Date());
