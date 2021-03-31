@@ -24,7 +24,7 @@
 		<inject.version>1</inject.version>
 		<commons-lang3.version>3.9</commons-lang3.version>
 		<commons-validator.version>1.6</commons-validator.version>
-		<guava.version>28.0-jre</guava.version>
+		<guava.version>29.0-jre</guava.version>
 	</properties>
 	<dependencies>
 		<dependency>
